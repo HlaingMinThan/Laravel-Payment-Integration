@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    return auth()->user()->subscriptions;
     return view('welcome');
 });
 
@@ -27,6 +28,12 @@ Route::get('/subscribe', function () {
     return view('subscribe', [
         'intent' => auth()->user()->createSetupIntent() //coming from cashier billable trait
     ]);
+})->middleware(['auth', 'verified'])->name('subscribe');
+
+Route::post('/subscribe', function () {
+    //create subscription
+    auth()->user()->newSubscription('My Product', request('plan'))->create(request('paymentMethod'));
+    return back();
 })->middleware(['auth', 'verified'])->name('subscribe');
 
 

@@ -21,12 +21,15 @@
                     >
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if (!auth()->user()->subscribed('My Product'))
                     <x-nav-link
                         :href="route('subscribe')"
                         :active="request()->routeIs('subscribe')"
                     >
                         {{ __('Subscribe') }}
                     </x-nav-link>
+                    @endif
                 </div>
             </div>
 
